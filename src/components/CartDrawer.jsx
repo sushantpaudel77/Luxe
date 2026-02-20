@@ -20,29 +20,22 @@ export default function CartDrawer() {
     const overlay = overlayRef.current;
 
     if (isOpen) {
-      // Kill any running tweens on these elements
       gsap.killTweensOf([drawer, overlay]);
 
-      // Overlay fade in
-      gsap.fromTo(
-        overlay,
+      gsap.fromTo(overlay,
         { opacity: 0 },
         { opacity: 1, duration: 0.4, ease: 'power2.out' }
       );
 
-      // Drawer slide in — weighted, physical feel
-      gsap.fromTo(
-        drawer,
+      gsap.fromTo(drawer,
         { x: '100%' },
         { x: '0%', duration: 0.75, ease: 'power4.out' }
       );
 
-      // Stagger header, items, footer after drawer lands
       const tl = gsap.timeline({ delay: 0.1 });
 
       if (headerRef.current) {
-        tl.fromTo(
-          headerRef.current,
+        tl.fromTo(headerRef.current,
           { opacity: 0, y: -6 },
           { opacity: 1, y: 0, duration: 0.2, ease: 'power2.out' }
         );
@@ -50,23 +43,15 @@ export default function CartDrawer() {
 
       const visibleItems = itemsRef.current.filter(Boolean);
       if (visibleItems.length > 0) {
-        tl.fromTo(
-          visibleItems,
+        tl.fromTo(visibleItems,
           { opacity: 0, x: 16 },
-          {
-            opacity: 1,
-            x: 0,
-            duration: 0.25,
-            ease: 'power2.out',
-            stagger: 0.05,
-          },
+          { opacity: 1, x: 0, duration: 0.25, ease: 'power2.out', stagger: 0.05 },
           '-=0.1'
         );
       }
 
       if (footerRef.current) {
-        tl.fromTo(
-          footerRef.current,
+        tl.fromTo(footerRef.current,
           { opacity: 0, y: 8 },
           { opacity: 1, y: 0, duration: 0.2, ease: 'power2.out' },
           '-=0.1'
@@ -74,26 +59,17 @@ export default function CartDrawer() {
       }
     } else {
       gsap.killTweensOf([drawer, overlay, ...itemsRef.current.filter(Boolean)]);
-
       gsap.to(overlay, { opacity: 0, duration: 0.45, ease: 'power2.in' });
-      gsap.to(drawer, {
-        x: '100%',
-        duration: 0.5,
-        ease: 'power4.in',
-      });
+      gsap.to(drawer, { x: '100%', duration: 0.5, ease: 'power4.in' });
     }
   }, [isOpen]);
 
-  // Animate new items when they're added while drawer is open
   useEffect(() => {
     if (!isOpen) return;
     const visibleItems = itemsRef.current.filter(Boolean);
     if (visibleItems.length === 0) return;
-
-    // Only animate the last item (newly added)
     const lastItem = visibleItems[visibleItems.length - 1];
-    gsap.fromTo(
-      lastItem,
+    gsap.fromTo(lastItem,
       { opacity: 0, x: 24, scale: 0.97 },
       { opacity: 1, x: 0, scale: 1, duration: 0.35, ease: 'back.out(1.4)' }
     );
@@ -103,14 +79,9 @@ export default function CartDrawer() {
     const el = itemsRef.current[index];
     if (el) {
       gsap.to(el, {
-        opacity: 0,
-        x: 30,
-        height: 0,
-        marginBottom: 0,
-        paddingTop: 0,
-        paddingBottom: 0,
-        duration: 0.3,
-        ease: 'power2.in',
+        opacity: 0, x: 30, height: 0,
+        marginBottom: 0, paddingTop: 0, paddingBottom: 0,
+        duration: 0.3, ease: 'power2.in',
         onComplete: () => dispatch(removeFromCart(id)),
       });
     } else {
@@ -129,10 +100,13 @@ export default function CartDrawer() {
         className="absolute inset-0 bg-ink/30 opacity-0 backdrop-blur-[2px]"
       />
 
-      {/* Drawer */}
+      {/* Drawer
+          • w-full on mobile (360–767px) → full screen width
+          • sm:max-w-sm on tablet+ → classic sidebar panel
+      */}
       <div
         ref={drawerRef}
-        className="absolute right-0 top-0 h-full w-full max-w-sm bg-paper shadow-2xl flex flex-col translate-x-full will-change-transform"
+        className="absolute right-0 top-0 h-full w-full sm:max-w-sm bg-paper shadow-2xl flex flex-col translate-x-full will-change-transform"
         style={{ backfaceVisibility: 'hidden' }}
       >
         {/* Header */}
@@ -143,10 +117,12 @@ export default function CartDrawer() {
           <h2 className="font-display text-xl font-semibold">Your Cart</h2>
           <button
             onClick={() => dispatch(closeCart())}
-            className="text-ink/50 hover:text-ink transition-colors duration-200 hover:rotate-90 transform"
+            className="text-ink/50 hover:text-ink transition-colors duration-200"
             style={{ transition: 'color 0.2s, transform 0.25s cubic-bezier(0.34,1.56,0.64,1)' }}
+            onMouseEnter={e => e.currentTarget.style.transform = 'rotate(90deg)'}
+            onMouseLeave={e => e.currentTarget.style.transform = 'rotate(0deg)'}
           >
-            <FiX className="w-5 h-5" />
+            <FiX className="w-5 h-5 text-accent" />
           </button>
         </div>
 
@@ -173,7 +149,6 @@ export default function CartDrawer() {
                     src={item.image}
                     alt={item.name}
                     className="w-20 h-20 object-cover rounded-lg"
-                    style={{ transition: 'transform 0.2s ease' }}
                     onMouseEnter={e => gsap.to(e.currentTarget, { scale: 1.04, duration: 0.25, ease: 'power2.out' })}
                     onMouseLeave={e => gsap.to(e.currentTarget, { scale: 1, duration: 0.25, ease: 'power2.out' })}
                   />
@@ -184,16 +159,12 @@ export default function CartDrawer() {
                       <button
                         onClick={() => dispatch(updateQty({ id: item.id, qty: item.qty - 1 }))}
                         className="w-6 h-6 border border-ink/20 rounded flex items-center justify-center text-ink/60 hover:border-accent hover:text-accent transition-colors duration-150"
-                      >
-                        −
-                      </button>
+                      >−</button>
                       <span className="text-sm w-4 text-center tabular-nums">{item.qty}</span>
                       <button
                         onClick={() => dispatch(updateQty({ id: item.id, qty: item.qty + 1 }))}
                         className="w-6 h-6 border border-ink/20 rounded flex items-center justify-center text-ink/60 hover:border-accent hover:text-accent transition-colors duration-150"
-                      >
-                        +
-                      </button>
+                      >+</button>
                     </div>
                   </div>
                   <button
@@ -216,11 +187,11 @@ export default function CartDrawer() {
                 <span className="text-green-600 text-xs font-medium">Free over $500</span>
               </div>
               <button
-                className="w-full bg-ink text-paper py-3.5 text-sm font-medium tracking-wide hover:bg-accent transition-colors duration-300 rounded-sm active:scale-[0.98]"
+                className="w-full bg-ink text-paper py-3.5 text-sm font-medium tracking-wide hover:bg-accent rounded-sm active:scale-[0.98]"
                 style={{ transition: 'background-color 0.3s ease, transform 0.1s ease' }}
                 onMouseEnter={e => gsap.to(e.currentTarget, { y: -1, duration: 0.2, ease: 'power2.out' })}
                 onMouseLeave={e => gsap.to(e.currentTarget, { y: 0, duration: 0.2, ease: 'power2.out' })}
-                onMouseDown={e => gsap.to(e.currentTarget, { scale: 0.98, duration: 0.1, ease: 'power2.out' })}
+                onMouseDown={e => gsap.to(e.currentTarget, { scale: 0.98, duration: 0.1 })}
                 onMouseUp={e => gsap.to(e.currentTarget, { scale: 1, duration: 0.15, ease: 'back.out(2)' })}
               >
                 Checkout — ${total.toLocaleString()}
