@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+:root {
+  --ink: #0D0D0D;
+  --paper: #F9F7F4;
+  --accent: #C8A96E;
+  --muted: #8C8C8C;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--paper);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 3px;
+}
+
+.font-display {
+  font-family: 'Playfair Display', serif;
+}
+
+/* TM symbol: sans (DM Sans), distinct from display serif */
+.font-tm {
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* Page transition */
+.page-enter {
+  opacity: 0;
+  transform: translateY(16px);
+}
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.4s ease;
+}
+
+@layer utilities {
+  .text-ink { color: #0D0D0D; }
+  .text-paper { color: #F9F7F4; }
+  .text-accent { color: #C8A96E; }
+  .text-muted { color: #8C8C8C; }
+  .bg-ink { background-color: #0D0D0D; }
+  .bg-paper { background-color: #F9F7F4; }
+  .bg-accent { background-color: #C8A96E; }
+  .border-accent { border-color: #C8A96E; }
+}
