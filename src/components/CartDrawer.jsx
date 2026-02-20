@@ -38,13 +38,13 @@ export default function CartDrawer() {
       );
 
       // Stagger header, items, footer after drawer lands
-      const tl = gsap.timeline({ delay: 0.25 });
+      const tl = gsap.timeline({ delay: 0.1 });
 
       if (headerRef.current) {
         tl.fromTo(
           headerRef.current,
-          { opacity: 0, y: -8 },
-          { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' }
+          { opacity: 0, y: -6 },
+          { opacity: 1, y: 0, duration: 0.2, ease: 'power2.out' }
         );
       }
 
@@ -52,13 +52,13 @@ export default function CartDrawer() {
       if (visibleItems.length > 0) {
         tl.fromTo(
           visibleItems,
-          { opacity: 0, x: 20 },
+          { opacity: 0, x: 16 },
           {
             opacity: 1,
             x: 0,
-            duration: 0.35,
+            duration: 0.25,
             ease: 'power2.out',
-            stagger: 0.06,
+            stagger: 0.05,
           },
           '-=0.1'
         );
@@ -67,9 +67,9 @@ export default function CartDrawer() {
       if (footerRef.current) {
         tl.fromTo(
           footerRef.current,
-          { opacity: 0, y: 10 },
-          { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' },
-          '-=0.15'
+          { opacity: 0, y: 8 },
+          { opacity: 1, y: 0, duration: 0.2, ease: 'power2.out' },
+          '-=0.1'
         );
       }
     } else {
