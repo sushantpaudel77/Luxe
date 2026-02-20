@@ -1,8 +1,6 @@
-import { useRef, useEffect } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useRef } from 'react';
 
-export default function BrandBlurb({ logoRef }) {
+export default function BrandBlurb() {
   const containerRef = useRef(null);
 
   const handleMouseMove = (e) => {
@@ -18,74 +16,66 @@ export default function BrandBlurb({ logoRef }) {
     containerRef.current.style.setProperty('--torch', '0');
   };
 
-  const sharedStyle = {
-    fontSize: 'clamp(2.75rem, 14vw, 7rem)',
-    letterSpacing: '-0.03em',
-    minWidth: 'min-content',
-  };
-
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-
-    const anim = gsap.fromTo(
-      el,
-      { y: 50, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: { trigger: el, start: 'top 95%' },
-        delay: 0.7,
-      }
-    );
-    return () => {
-      anim.kill();
-      ScrollTrigger.getAll()
-        .filter((t) => t.vars.trigger === el)
-        .forEach((t) => t.kill());
-    };
-  }, []);
   return (
-    <div
-      ref={(el) => {
-        containerRef.current = el;
-        if (logoRef) logoRef.current = el;
-      }}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave} 
-      className="relative inline-block select-none leading-none cursor-default wordmark-torch"
-      style={{ '--torch': 0, '--gx': '50%', '--gy': '50%' }}
-    >
-      <h2 className="font-display font-bold leading-none text-white/20" style={sharedStyle}>
-        LUXE<span className="font-tm text-[0.35em] align-top opacity-70">™</span>
-      </h2>
-
-      <h2
-        className="absolute inset-0 font-display font-bold leading-none text-white pointer-events-none wordmark-torch__reveal"
-        style={sharedStyle}
-        aria-hidden="true"
+    <div className="col-span-2 md:col-span-1">
+      {/*
+        The entire magic lives on this one element via CSS custom properties.
+        --torch: 0 by default, set to 1 on hover via JS for smooth transition.
+        --gx / --gy: cursor position relative to the container.
+      */}
+      <div
+        ref={containerRef}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        className="relative inline-block mb-2 cursor-default select-none brand-torch"
+        style={{ '--torch': 0, '--gx': '50%', '--gy': '50%' }}
       >
-        LUXE<span className="font-tm text-accent text-[0.35em] align-top">™</span>
-      </h2>
+        {/* ① Base layer — very dark, always visible */}
+        <p className="text-[11px] font-display font-semibold tracking-wide text-white/12">
+          LUXE<span className="font-tm text-[0.5em] align-top">™</span>
+        </p>
 
+        {/* ② Torch reveal layer — masked to cursor spotlight */}
+        <p className="absolute inset-0 text-[11px] font-display font-semibold tracking-wide text-white pointer-events-none brand-torch__reveal">
+          LUXE<span className="font-tm text-[0.5em] align-top text-accent">™</span>
+        </p>
+      </div>
+
+      <p className="text-sm text-white/70 leading-relaxed max-w-[200px]">
+        Curated furniture & decor for the modern home. Quality that outlasts trends.
+      </p>
+
+      {/* Scoped styles — no global pollution */}
       <style>{`
-        .wordmark-torch__reveal {
+        .brand-torch__reveal {
           opacity: var(--torch);
-          transition: opacity 0.4s ease;
+          transition: opacity 0.35s ease;
           -webkit-mask-image: radial-gradient(
-            circle 90px at var(--gx) var(--gy),
+            circle 32px at var(--gx) var(--gy),
             black 0%,
-            black 25%,
             transparent 100%
           );
           mask-image: radial-gradient(
-            circle 90px at var(--gx) var(--gy),
+            circle 32px at var(--gx) var(--gy),
             black 0%,
-            black 25%,
             transparent 100%
           );
+        }
+
+        /* Warm ambient glow behind text, follows cursor via pseudo */
+        .brand-torch::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          border-radius: 4px;
+          background: radial-gradient(
+            circle 40px at var(--gx) var(--gy),
+            rgba(200, 169, 110, 0.22) 0%,
+            transparent 70%
+          );
+          opacity: var(--torch);
+          transition: opacity 0.35s ease;
         }
       `}</style>
     </div>

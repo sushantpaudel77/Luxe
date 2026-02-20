@@ -43,7 +43,7 @@ export default function SearchResults() {
   };
 
   return (
-    <div className="bg-paper min-h-screen">
+    <div className="bg-paper">
       <div className="pt-16 max-w-7xl mx-auto px-3 py-14">
         <div ref={titleRef}>
           {/* Search bar */}
