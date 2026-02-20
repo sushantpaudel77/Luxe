@@ -41,7 +41,7 @@ export default function SearchResults() {
       <div className="pt-16 max-w-7xl mx-auto px-6 py-14">
         <div ref={titleRef}>
           {/* Search bar */}
-          <form onSubmit={handleSearch} className="flex items-center border-b-2 border-ink pb-3 max-w-lg mb-10">
+          <form onSubmit={handleSearch} className="flex items-center border-b-2 border-ink pb-3 max-w-lg mb-10 px-2">
             <input
               type="text"
               value={localQuery}
