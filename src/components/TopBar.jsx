@@ -6,7 +6,7 @@ export default function TopBar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full flex items-center justify-between">
 
         {/* Left — social icons */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
           <a href="#" aria-label="Instagram" className="text-paper hover:text-accent transition-colors duration-200">
             <AiFillInstagram className="w-4 h-4" />
           </a>
