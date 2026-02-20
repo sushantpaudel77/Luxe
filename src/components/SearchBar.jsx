@@ -9,9 +9,9 @@ export default function SearchBar() {
   const [query, setQuery] = useState('');
 
   const overlayRef = useRef(null);
-  const inputRef   = useRef(null);
-  const formRef    = useRef(null);
-  const navigate   = useNavigate();
+  const inputRef = useRef(null);
+  const formRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!overlayRef.current || !formRef.current) return;
@@ -19,11 +19,13 @@ export default function SearchBar() {
     if (isOpen) {
       document.body.classList.add('search-open');
       gsap.set(overlayRef.current, { display: 'flex' });
-      gsap.fromTo(overlayRef.current,
+      gsap.fromTo(
+        overlayRef.current,
         { opacity: 0 },
         { opacity: 1, duration: 0.25, ease: 'power2.out' }
       );
-      gsap.fromTo(formRef.current,
+      gsap.fromTo(
+        formRef.current,
         { y: -12, opacity: 0 },
         { y: 0, opacity: 1, duration: 0.35, ease: 'power3.out', delay: 0.08 }
       );
@@ -43,7 +45,9 @@ export default function SearchBar() {
   }, [isOpen]);
 
   useEffect(() => {
-    const onKey = (e) => { if (e.key === 'Escape') setIsOpen(false); };
+    const onKey = (e) => {
+      if (e.key === 'Escape') setIsOpen(false);
+    };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, []);
@@ -100,11 +104,14 @@ export default function SearchBar() {
               {query && (
                 <button
                   type="button"
-                  onClick={() => { setQuery(''); inputRef.current?.focus(); }}
+                  onClick={() => {
+                    setQuery('');
+                    inputRef.current?.focus();
+                  }}
                   className="p-1 rounded-full text-ink/35 hover:text-ink hover:bg-ink/5 transition-colors shrink-0"
                   aria-label="Clear"
                 >
-                  <FiX className="w-3.5 h-3.5" />
+                  {/* <FiX className="w-3.5 h-3.5" /> */}
                 </button>
               )}
 
@@ -131,10 +138,7 @@ export default function SearchBar() {
 
           {/* Backdrop */}
           {isOpen && (
-            <div
-              className="fixed inset-0 z-[9998] bg-ink/10"
-              onClick={() => setIsOpen(false)}
-            />
+            <div className="fixed inset-0 z-[9998] bg-ink/10" onClick={() => setIsOpen(false)} />
           )}
         </>,
         document.body
