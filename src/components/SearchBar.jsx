@@ -124,7 +124,7 @@ export default function SearchBar() {
                 className="shrink-0 bg-accent text-paper text-xs font-semibold uppercase tracking-widest px-3 sm:px-5 py-2 rounded-sm hover:bg-[#d4b87a] transition-colors duration-200"
               >
                 <span className="hidden sm:inline">Search</span>
-                <span className="sm:hidden">Search</span>
+                <span className="sm:hidden">Go</span>
               </button>
 
               <button
