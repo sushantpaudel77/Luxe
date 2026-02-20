@@ -10,7 +10,7 @@ export const navLinks = [
 export const mobileNavLinks = [
   { url: '/', label: 'Home' },
   { url: '/shop', label: 'Shop' },
-  { url: '/shop', label: 'Category' },
+  // { url: '/shop', label: 'Category' },
   { url: '/wishlist', label: 'Wishlist' },
 ];
 
