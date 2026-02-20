@@ -72,15 +72,10 @@ export default function SearchBar() {
 
       {createPortal(
         <>
-          {/* ── Search overlay ──
-              • NO flex-wrap — single row always
-              • h-16 fixed height so it never grows
-              • min-w-0 on input so it shrinks instead of overflowing
-          */}
           <div
             ref={overlayRef}
             style={{ display: 'none' }}
-            className="fixed inset-x-0 top-9 z-[9999] h-16 bg-paper/60 backdrop-blur-md border-b border-ink/10 shadow-md flex items-center px-3 sm:px-6"
+            className="fixed inset-x-0 top-9 z-9999 h-16 bg-paper/60 backdrop-blur-md border-b border-ink/10 shadow-md flex items-center px-3 sm:px-6"
           >
             <form
               ref={formRef}

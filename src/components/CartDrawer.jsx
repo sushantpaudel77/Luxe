@@ -92,7 +92,7 @@ export default function CartDrawer() {
   const total = items.reduce((sum, i) => sum + i.price * i.qty, 0);
 
   return (
-    <div className={`fixed inset-0 z-[100] ${isOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}>
+    <div className={`fixed inset-0 z-100 ${isOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}>
       {/* Overlay */}
       <div
         ref={overlayRef}
