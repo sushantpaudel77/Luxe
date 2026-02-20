@@ -11,15 +11,15 @@ import SearchBar from './SearchBar';
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
- 
-  const navRef   = useRef(null);
+
+  const navRef = useRef(null);
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const cartItems     = useSelector(s => s.cart.items);
-  const wishlistItems = useSelector(s => s.wishlist.items);
-  const cartCount     = cartItems.reduce((acc, i) => acc + i.qty, 0);
-  const isHome        = location.pathname === '/';
+  const cartItems = useSelector((s) => s.cart.items);
+  const wishlistItems = useSelector((s) => s.wishlist.items);
+  const cartCount = cartItems.reduce((acc, i) => acc + i.qty, 0);
+  const isHome = location.pathname === '/';
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -27,7 +27,9 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  useEffect(() => { setMenuOpen(false); }, [location.pathname]);
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location.pathname]);
 
   const isLight = scrolled || !isHome;
 
@@ -40,7 +42,6 @@ export default function Navbar() {
         }`}
       >
         <nav className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
-
           <Link
             to="/"
             className="font-display text-2xl font-bold tracking-tight text-ink transition-colors duration-300 z-10"
@@ -51,7 +52,10 @@ export default function Navbar() {
           <ul className="hidden md:flex items-center gap-8 text-sm font-medium text-ink/70">
             {navLinks.map(({ url, label }) => (
               <li key={label}>
-                <Link to={url} className="hover:text-accent transition-colors duration-200 relative group">
+                <Link
+                  to={url}
+                  className="hover:text-accent transition-colors duration-200 relative group"
+                >
                   {label}
                   <span className="absolute -bottom-1 left-0 w-0 h-px bg-accent transition-all duration-300 group-hover:w-full" />
                 </Link>
@@ -60,10 +64,12 @@ export default function Navbar() {
           </ul>
 
           <div className="flex items-center gap-3 z-10">
-
             <SearchBar />
 
-            <Link to="/wishlist" className="relative hidden md:block p-1.5 rounded-full hover:bg-ink/5 transition-colors">
+            <Link
+              to="/wishlist"
+              className="relative hidden md:block p-1.5 rounded-full hover:bg-ink/5 transition-colors"
+            >
               {wishlistItems.length > 0 ? (
                 <AiFillHeart className="w-5 h-5 text-red-500" />
               ) : (
@@ -89,13 +95,14 @@ export default function Navbar() {
             </button>
 
             <button
-              onClick={() => setMenuOpen(o => !o)}
-              className="md:hidden p-1.5 rounded-full text-ink/70 hover:text-accent hover:bg-ink/5 transition-colors"
+              onClick={() => setMenuOpen((o) => !o)}
+              className={`md:hidden p-1.5 rounded-full text-ink/70 hover:text-accent hover:bg-ink/5 transition-colors 
+                ${menuOpen ? 'text-accent' : ''} 
+                `}
               aria-label="Toggle menu"
             >
               {menuOpen ? <HiX className="w-5 h-5" /> : <HiMenu className="w-5 h-5" />}
             </button>
-
           </div>
         </nav>
       </header>
