@@ -1,10 +1,27 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
-  --ink: #0D0D0D;
-  --paper: #F9F7F4;
-  --accent: #C8A96E;
-  --muted: #8C8C8C;
+  --ink: #0d0d0d;
+  --paper: #f9f7f4;
+  --accent: #c8a96e;
+  --muted: #8c8c8c;
+}
+
+/* Hide scrollbar but allow scrolling */
+
+/* Chrome, Safari, Edge */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Firefox */
+html {
+  scrollbar-width: none;
+}
+
+/* IE/old Edge */
+body {
+  -ms-overflow-style: none;
 }
 
 * {
@@ -25,11 +42,14 @@ body {
 ::-webkit-scrollbar {
   width: 6px;
 }
+
 ::-webkit-scrollbar-track {
   background: var(--paper);
 }
+
 ::-webkit-scrollbar-thumb {
   background: var(--accent);
+
   border-radius: 3px;
 }
 
@@ -38,28 +58,65 @@ body {
 }
 
 /* TM symbol: sans (DM Sans), distinct from display serif */
+
 .font-tm {
   font-family: 'DM Sans', sans-serif;
 }
 
 /* Page transition */
+
 .page-enter {
   opacity: 0;
+
   transform: translateY(16px);
 }
+
 .page-enter-active {
   opacity: 1;
+
   transform: translateY(0);
+
   transition: all 0.4s ease;
 }
 
+/* ── Search open: hide navbar contents so the search overlay is the only thing visible ── */
+
+body.search-open .main-navbar nav {
+  visibility: hidden;
+
+  pointer-events: none;
+}
+
 @layer utilities {
-  .text-ink { color: #0D0D0D; }
-  .text-paper { color: #F9F7F4; }
-  .text-accent { color: #C8A96E; }
-  .text-muted { color: #8C8C8C; }
-  .bg-ink { background-color: #0D0D0D; }
-  .bg-paper { background-color: #F9F7F4; }
-  .bg-accent { background-color: #C8A96E; }
-  .border-accent { border-color: #C8A96E; }
+  .text-ink {
+    color: #0d0d0d;
+  }
+
+  .text-paper {
+    color: #f9f7f4;
+  }
+
+  .text-accent {
+    color: #c8a96e;
+  }
+
+  .text-muted {
+    color: #8c8c8c;
+  }
+
+  .bg-ink {
+    background-color: #0d0d0d;
+  }
+
+  .bg-paper {
+    background-color: #f9f7f4;
+  }
+
+  .bg-accent {
+    background-color: #c8a96e;
+  }
+
+  .border-accent {
+    border-color: #c8a96e;
+  }
 }

@@ -20,25 +20,23 @@ export default function Home() {
   // Hero text animation on slide change
   useEffect(() => {
     const tl = gsap.timeline();
+
     tl.fromTo(
       headRef.current,
       { y: 40, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }
-    );
-    tl.fromTo(
-      subRef.current,
-      { y: 20, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out' },
-      '-=0.4'
-    );
-    tl.fromTo(
-      ctaRef.current,
-      { y: 20, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' },
-      '-=0.3'
-    );
+      { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out' }
+    )
+      .fromTo(
+        subRef.current,
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out' }
+      )
+      .fromTo(
+        ctaRef.current,
+        { y: 20, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out' }
+      );
   }, [slide]);
-
   // Auto advance slides
   useEffect(() => {
     const timer = setInterval(() => setSlide((s) => (s + 1) % heroSlides.length), 5000);
@@ -92,7 +90,7 @@ export default function Home() {
   const trending = products.slice(4, 8);
 
   return (
-    <div className="bg-paper">
+    <div className="bg-">
       {/* Hero */}
       <section ref={heroRef} className="relative h-screen overflow-hidden">
         {/* Background image */}
@@ -119,7 +117,10 @@ export default function Home() {
               >
                 {current.headline} <em className="text-accent not-italic">{current.highlight}</em>
               </h1>
-              <p ref={subRef} className="mt-6 text-paper text-xl md:text-2xl leading-relaxed max-w-lg drop-shadow-[0_1px_4px_rgba(0,0,0,0.7)] [text-shadow:0_0_2px_rgba(0,0,0,0.9)]">
+              <p
+                ref={subRef}
+                className="mt-6 text-paper text-xl md:text-2xl leading-relaxed max-w-lg drop-shadow-[0_1px_4px_rgba(0,0,0,0.7)] [text-shadow:0_0_2px_rgba(0,0,0,0.9)]"
+              >
                 {current.sub}
               </p>
               <div ref={ctaRef} className="flex items-center gap-5 mt-10 md:mt-12">

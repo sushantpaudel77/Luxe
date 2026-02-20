@@ -2,11 +2,9 @@ import { useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import {
-  footerShopLinks,
-  footerHelpLinks,
-  socialLinks,
-} from '../assets/navLinks';
+import { footerShopLinks, footerHelpLinks, socialLinks } from '../assets/navLinks';
+import BrandBlurb from './BrandBlurb';
+import { FiArrowUp } from 'react-icons/fi';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -57,12 +55,12 @@ export default function Footer() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Animate only transform (y) on scroll — keep opacity 1 so footer is always visible on navigation
       gsap.fromTo(
         ctaRef.current,
-        { y: 40 },
+        { y: 40, opacity: 0 },
         {
           y: 0,
+          opacity: 1,
           duration: 0.8,
           ease: 'power3.out',
           scrollTrigger: { trigger: ctaRef.current, start: 'top 90%' },
@@ -71,9 +69,10 @@ export default function Footer() {
 
       gsap.fromTo(
         gridRef.current?.children,
-        { y: 30 },
+        { y: 30, opacity: 0 },
         {
           y: 0,
+          opacity: 1,
           stagger: 0.1,
           duration: 0.55,
           ease: 'power3.out',
@@ -82,27 +81,18 @@ export default function Footer() {
       );
 
       gsap.fromTo(
-        logoRef.current,
-        { y: 30 },
-        {
-          y: 0,
-          duration: 0.8,
-          ease: 'power3.out',
-          scrollTrigger: { trigger: logoRef.current, start: 'top 95%' },
-        }
-      );
-
-      gsap.fromTo(
         bottomRef.current,
-        { y: 12 },
+        { y: 12, opacity: 0 },
         {
           y: 0,
-          duration: 0.5,
+          opacity: 1,
+          duration: 0.6,
           scrollTrigger: { trigger: bottomRef.current, start: 'top 98%' },
         }
       );
     }, footerRef);
 
+    ScrollTrigger.refresh();
     return () => ctx.revert();
   }, []);
 
@@ -126,10 +116,7 @@ export default function Footer() {
   return (
     <footer ref={footerRef} className="bg-[#0D0D0D] mt-20 overflow-hidden">
       {/* ── CTA strip ── */}
-      <div
-        ref={ctaRef}
-        className="max-w-7xl mx-auto px-6 pt-14 pb-8 border-b border-white/20"
-      >
+      <div ref={ctaRef} className="max-w-7xl mx-auto px-6 pt-14 pb-8 border-b border-white/20">
         <p className="text-[10px] uppercase tracking-[0.3em] text-white/60 mb-3">
           Discover our collection
         </p>
@@ -156,16 +143,13 @@ export default function Footer() {
             <span className="font-tm text-[0.5em] align-top opacity-80">™</span>
           </p>
           <p className="text-sm text-white/70 leading-relaxed max-w-[200px]">
-            Curated furniture & decor for the modern home. Quality that outlasts
-            trends.
+            Curated furniture & decor for the modern home. Quality that outlasts trends.
           </p>
         </div>
 
         {/* Navigate */}
         <div>
-          <p className="text-[10px] uppercase tracking-[0.25em] text-white/60 mb-4">
-            Navigate
-          </p>
+          <p className="text-[10px] uppercase tracking-[0.25em] text-white/60 mb-4">Navigate</p>
           <ul className="space-y-2.5">
             {[
               { url: '/', label: 'Home' },
@@ -186,9 +170,7 @@ export default function Footer() {
 
         {/* Collections */}
         <div>
-          <p className="text-[10px] uppercase tracking-[0.25em] text-white/60 mb-4">
-            Collections
-          </p>
+          <p className="text-[10px] uppercase tracking-[0.25em] text-white/60 mb-4">Collections</p>
           <ul className="space-y-2.5">
             {footerShopLinks.map(({ url, label }) => (
               <li key={label}>
@@ -205,9 +187,7 @@ export default function Footer() {
 
         {/* Help + Social */}
         <div>
-          <p className="text-[10px] uppercase tracking-[0.25em] text-white/60 mb-4">
-            Help
-          </p>
+          <p className="text-[10px] uppercase tracking-[0.25em] text-white/60 mb-4">Help</p>
           <ul className="space-y-2.5 mb-6">
             {footerHelpLinks.map(({ url, label }) => (
               <li key={label}>
@@ -220,9 +200,7 @@ export default function Footer() {
               </li>
             ))}
           </ul>
-          <p className="text-[10px] uppercase tracking-[0.25em] text-white/60 mb-4">
-            Follow
-          </p>
+          <p className="text-[10px] uppercase tracking-[0.25em] text-white/60 mb-4">Follow</p>
           <ul className="space-y-2.5">
             {socialLinks.map(({ url, label }) => (
               <li key={label}>
@@ -239,20 +217,11 @@ export default function Footer() {
       </div>
 
       {/* ── Wordmark + bottom bar ── */}
-      <div className="max-w-7xl mx-auto px-6 pt-2 pb-4 flex items-end justify-between gap-4">
+      <div className="max-w-7xl mx-auto px-6 pt-2 pb-4 flex flex-col md:flex-row justify-between gap-4">
         {/* Wordmark — visible on all screens, heart of footer */}
-        <h2
-          ref={logoRef}
-          className="font-display font-bold select-none leading-none text-white/60 sm:text-white/50"
-          style={{
-            fontSize: 'clamp(2.75rem, 14vw, 7rem)',
-            letterSpacing: '-0.03em',
-            minWidth: 'min-content',
-          }}
-        >
-          LUXE
-          <span className="font-tm text-[0.35em] align-top opacity-90">™</span>
-        </h2>
+
+        {/* Spotlight effect */}
+        <BrandBlurb />
 
         {/* Bottom right — copyright + scroll arrow */}
         <div ref={bottomRef} className="flex flex-col items-end gap-3 pb-1">
@@ -269,8 +238,7 @@ export default function Footer() {
           </div>
           <p className="text-[10px] text-white/55 uppercase tracking-widest">
             © 2026 Luxe
-            <span className="font-tm text-[0.55em] align-top">™</span>. All
-            rights reserved.
+            <span className="font-tm text-[0.55em] align-top">™</span>. All rights reserved.
           </p>
 
           {/* Scroll-to-top arrow */}
@@ -282,19 +250,7 @@ export default function Footer() {
             className="group w-10 h-10 rounded-full border border-white/30 flex items-center justify-center hover:border-accent hover:bg-accent/10 transition-all duration-300 mt-1"
             aria-label="Back to top"
           >
-            <svg
-              className="w-4 h-4 text-white/60 group-hover:text-accent transition-colors duration-300"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M5 10l7-7m0 0l7 7m-7-7v18"
-              />
-            </svg>
+            <FiArrowUp className="w-4 h-4 text-white/60 group-hover:text-accent transition-colors duration-300" />
           </button>
         </div>
       </div>

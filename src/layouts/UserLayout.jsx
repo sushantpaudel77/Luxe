@@ -12,13 +12,11 @@ const UserLayout = () => {
 
   return (
     <>
-      {/* Header */}
       <Header />
-      {/* Main content */}
-      <main className="pt-[100px]">
+      <main className="pt-25">
+      {/* <main> */}
         <Outlet />
       </main>
-      {/* Footer */}
       <Footer />
     </>
   );
