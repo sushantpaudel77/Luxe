@@ -30,15 +30,15 @@ export default function CartDrawer() {
         { opacity: 1, duration: 0.4, ease: 'power2.out' }
       );
 
-      // Drawer slide in with spring-like ease
+      // Drawer slide in — weighted, physical feel
       gsap.fromTo(
         drawer,
         { x: '100%' },
-        { x: '0%', duration: 0.55, ease: 'expo.out' }
+        { x: '0%', duration: 0.75, ease: 'power4.out' }
       );
 
       // Stagger header, items, footer after drawer lands
-      const tl = gsap.timeline({ delay: 0.15 });
+      const tl = gsap.timeline({ delay: 0.25 });
 
       if (headerRef.current) {
         tl.fromTo(
@@ -75,11 +75,11 @@ export default function CartDrawer() {
     } else {
       gsap.killTweensOf([drawer, overlay, ...itemsRef.current.filter(Boolean)]);
 
-      gsap.to(overlay, { opacity: 0, duration: 0.35, ease: 'power2.in' });
+      gsap.to(overlay, { opacity: 0, duration: 0.45, ease: 'power2.in' });
       gsap.to(drawer, {
         x: '100%',
-        duration: 0.4,
-        ease: 'power3.in',
+        duration: 0.5,
+        ease: 'power4.in',
       });
     }
   }, [isOpen]);
