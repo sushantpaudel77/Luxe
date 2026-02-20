@@ -7,8 +7,6 @@
   --muted: #8c8c8c;
 }
 
-/* Hide scrollbar but allow scrolling */
-
 /* Chrome, Safari, Edge */
 ::-webkit-scrollbar {
   display: none;
